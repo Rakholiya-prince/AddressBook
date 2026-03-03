@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Address_Book</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Address_Book.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+            <div class="container">
+
+                <!-- Left: Title -->
+                <a href="/Companies"
+                   class="navbar-brand fw-bold fs-4">
+                    Address Book
+                </a>
+
+                <!-- Center: Search -->
+                <div class="mx-auto w-50">
+                    <form method="get" asp-controller="Companies" asp-action="Index">
+                        <div class="input-group">
+                            <input type="text"
+                                   name="search"
+                                   class="form-control rounded-pill"
+                                   placeholder="Search company / person"
+                                   value="@Context.Request.Query["search"]" />
+
+                            <button class="btn btn-outline-secondary rounded-pill ms-2" type="submit">
+                                Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right: Add Company Button -->
+                <div>
+                    <a href="/Companies"
+                       class="btn btn-primary rounded-pill px-4">
+                        + Add Company
+                    </a>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - Address_Book - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

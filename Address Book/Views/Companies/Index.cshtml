@@ -1,0 +1,143 @@
+﻿@model CompanyPageViewModel
+
+
+<div class="container mt-4">
+
+    <!-- Add / Edit Form -->
+    <div class="card mb-4" id="companyForm">
+        <div class="card-header">
+            <h5>@(Model.FormCompany.Company_ID == 0 ? "Add Company" : "Edit Company")</h5>
+        </div>
+
+        <div class="card-body">
+            <form asp-action="Save" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input asp-for="FormCompany.Company_ID" type="hidden" />
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <input asp-for="FormCompany.Company_Name"
+                               class="form-control"
+                               placeholder="Company Name" />
+                        <span asp-validation-for="FormCompany.Company_Name"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <input asp-for="FormCompany.ContactPerson"
+                               class="form-control"
+                               placeholder="Contact Person" />
+                        <span asp-validation-for="FormCompany.ContactPerson"
+                              class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <input asp-for="FormCompany.Email"
+                               class="form-control"
+                               placeholder="Email" />
+                        <span asp-validation-for="FormCompany.Email"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <input asp-for="FormCompany.Phone"
+                               class="form-control"
+                               placeholder="Phone" />
+                        <span asp-validation-for="FormCompany.Phone"
+                              class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <input asp-for="FormCompany.Address"
+                               class="form-control"
+                               placeholder="Address" />
+                        <span asp-validation-for="FormCompany.Address"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <select asp-for="FormCompany.Industry_ID"
+                                class="form-control"
+                                asp-items="@(new SelectList(Model.Industries, "Industry_ID", "Industry_Name"))">
+                            <option value="">Select Industry</option>
+                        </select>
+                        <span asp-validation-for="FormCompany.Industry_ID"
+                              class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary px-4">
+                        @(Model.FormCompany.Company_ID == 0 ? "Add Company" : "Update Company")
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Company List -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Company List</h5>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Person</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Industry</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model.Companies)
+                    {
+                        <tr>
+                            <td>@item.Company_Name</td>
+                            <td>@item.ContactPerson</td>
+                            <td>@item.Email</td>
+                            <td>@item.Phone</td>
+                            <td>@item.Address</td>
+                            <td>@item.Industry?.Industry_Name</td>
+                            <td>
+                                <a asp-action="Index"
+                                   asp-route-id="@item.Company_ID"
+                                   class="btn btn-warning btn-sm">
+                                    Edit
+                                </a>
+
+                                <a asp-action="Delete"
+                                   asp-route-id="@item.Company_ID"
+                                   class="btn btn-danger btn-sm">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>  
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
